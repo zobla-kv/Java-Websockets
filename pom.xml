@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>server-application</name>
+    <name>web-server-application</name>
     <groupId>org.zbl</groupId>
     <artifactId>server</artifactId>
     <packaging>war</packaging>
@@ -12,10 +12,11 @@
 
 
     <properties>
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.jdk.path>C:\Program Files\Java\jdk-18.0.2.1</java.jdk.path>
+        <jdk.path.home>C:\Program Files\Java\jdk-18.0.2.1</jdk.path.home>
+        <jdk.path.hpe>C:\Program Files\Java\jdk1.8.0_221</jdk.path.hpe>
     </properties>
 
     <dependencies>
@@ -30,10 +31,17 @@
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
+            <version>5.0.0</version>
             <scope>provided</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/log4j/log4j -->
         <dependency>
@@ -49,7 +57,15 @@
             <version>3.10.1</version>
         </dependency>
 
-   </dependencies>
+        <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin -->
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+
+    </dependencies>
 
     <build>
 
@@ -57,10 +73,12 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.10.1</version>
                 <configuration>
                     <fork>true</fork>
-                    <executable>${java.jdk.path}\bin\javac.exe</executable>
+                    <executable>${jdk.path.hpe}/bin/javac.exe</executable>
+<!--                    <source>1.8</source>-->
+<!--                    <target>1.8</target>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -70,6 +88,25 @@
                 <configuration>
                     <webXml>src/main/resources/web.xml</webXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <executions>
+                    <execution>
+                        <id>Deploy to tomcat server</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>powershell</executable>
+                            <arguments>
+                                <argument>${basedir}/deploy/deploy.ps1</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 <!--            <plugin>-->
 <!--                <groupId>org.apache.tomcat.maven</groupId>-->
