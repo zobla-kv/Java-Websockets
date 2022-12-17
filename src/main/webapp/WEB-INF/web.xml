@@ -7,7 +7,7 @@
     <response-character-encoding>UTF-8</response-character-encoding>
 
     <servlet>
-        <servlet-name>restServer</servlet-name>
+        <servlet-name>DefaultServlet</servlet-name>
         <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
 <!--        <servlet-class>restServer.RestServlet</servlet-class>-->
         <init-param>
@@ -17,14 +17,22 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>restServer</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>restServer</servlet-name>
+        <servlet-name>DefaultServlet</servlet-name>
         <url-pattern>/static/*</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RestServer</servlet-name>
+        <servlet-class>restServer.RestServlet</servlet-class>
+    </servlet>
+
+<!--    <filter>-->
+<!--        <filter-name>apiFilter</filter-name>-->
+<!--        <display-name>api-filter</display-name>-->
+<!--        <description>Filter for /api/*</description>-->
+<!--        <filter-class>filters.ApiFilter</filter-class>-->
+<!--&lt;!&ndash;        <async-supported>true</async-supported>&ndash;&gt;-->
+<!--    </filter>-->
 
 <!--    <filter>-->
 <!--        <filter-name>failedRequestFilter</filter-name>-->
@@ -37,11 +45,6 @@
     <session-config>
         <session-timeout>420</session-timeout>
     </session-config>
-
-    <welcome-file-list>
-        <welcome-file>404.index.html</welcome-file>
-    </welcome-file-list>
-
 
 
     <!-- ==================== Built In Filter Mappings ====================== -->
