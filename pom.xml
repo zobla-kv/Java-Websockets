@@ -92,6 +92,7 @@
             <plugin>
                 <artifactId>exec-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>Deploy to tomcat server</id>
@@ -102,6 +103,8 @@
                         <configuration>
                             <executable>powershell</executable>
                             <arguments>
+                                <argument>-ExecutionPolicy</argument>
+                                <argument>Bypass</argument>
                                 <argument>${basedir}/deploy/deploy.ps1</argument>
                             </arguments>
                         </configuration>
@@ -119,6 +122,6 @@
 <!--                </configuration>-->
 <!--            </plugin>-->
         </plugins>
-
     </build>
+
 </project>
